@@ -5,7 +5,7 @@ import BandeauAssbt from './components/BandeauAssbt.vue'
 
 <template>
   <header>
-    <div class="wrapper fond-ecran">
+    <div class="wrapper">
       <BandeauAssbt />
     </div>
   </header>

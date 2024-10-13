@@ -1,12 +1,35 @@
 <script setup lang="ts">
 import Toolbar from 'primevue/toolbar';
 import Drawer from 'primevue/drawer';
+import Menu from 'primevue/menu';
 import InputText from 'primevue/inputtext';
 import IconField from 'primevue/iconfield';
 import { ref } from "vue";
 
 const visible = ref(false);
 const value = ref(null);
+const menu = ref();
+const items = ref([
+  {
+    items: [
+
+      {
+        label: 'Accueil',
+      },
+      {
+        label: 'Inscription',
+      },
+      {
+        label: 'Contact',
+      }
+    ]
+  }
+]);
+
+const toggle = (event: any) => {
+  menu.value.toggle(event);
+};
+
 </script>
 
 <template>
@@ -14,12 +37,23 @@ const value = ref(null);
     <div class="col-12 opacity80">
       <Toolbar class="bg-assbt-primary">
         <template #start>
-          <img src="../assets/images/logo.png" alt="logo" class="logo" />
+          <div class="d-block d-sm-none">
+            <div class="text-left">
+              <span @click="toggle" aria-haspopup="true" aria-controls="overlay_menu"><i class="pi pi-bars"
+                  style="font-size: 1rem"></i></span>
+              <Menu class="bg-assbt-dark opacity80" ref="menu" id="overlay_menu" :model="items" :popup="true" />
+            </div>
+          </div>
+          <div class="d-none d-sm-block">
+            <img src="../assets/images/logo.png" alt="logo" class="logo" />
+          </div>
         </template>
         <template #center>
-          <router-link class="bandeau-link text-white bold-24" to="/">Accueil</router-link>
-          <router-link class="bandeau-link text-white bold-24" to="/inscription">Inscription</router-link>
-          <router-link class="bandeau-link text-white bold-24" to="/contact">Contact</router-link>
+          <div class="d-none d-sm-block">
+            <router-link class="bandeau-link text-white bold-24" to="/">Accueil</router-link>
+            <router-link class="bandeau-link text-white bold-24" to="/inscription">Inscription</router-link>
+            <router-link class="bandeau-link text-white bold-24" to="/contact">Contact</router-link>
+          </div>
         </template>
         <template #end>
           <span class="pi pi-user" style="font-size: 2.5rem" @click="visible = true"></span>
