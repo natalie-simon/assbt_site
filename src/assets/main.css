@@ -1,0 +1,37 @@
+@import './base.css';
+@import 'bootstrap/dist/css/bootstrap.min.css';
+
+.fond-ecran {
+  background-image: url('@/assets/images/fond_ecran_bulles.jpg');
+  background-size: cover;
+  min-height: 100vh;
+}
+
+.opacity80 {
+  opacity: 0.8 !important;
+}
+
+.bg-assbt-primary {
+  background-color: #134074 !important;
+}
+
+.bg-assbt-dark {
+  background-color: #0b2545 !important;
+}
+
+.bold-24 {
+  font-weight: bold;
+  font-size: 24px;
+}
+
+.text-assbt-shine {
+  color: #eef4ed;
+}
+
+.text-assbt-light {
+  color: #8da9c4;
+}
+
+.mt100 {
+  margin-top: 100px;
+}
