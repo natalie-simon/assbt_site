@@ -11,6 +11,10 @@
   opacity: 0.8 !important;
 }
 
+.opacity100 {
+  opacity: 1 !important;
+}
+
 .bg-assbt-primary {
   background-color: #134074 !important;
 }
@@ -19,9 +23,23 @@
   background-color: #0b2545 !important;
 }
 
+.bold-20 {
+  font-weight: bold;
+  font-size: 20px;
+}
+
 .bold-24 {
   font-weight: bold;
   font-size: 24px;
+}
+
+.bold-48 {
+  font-weight: bold;
+  font-size: 48px;
+}
+
+.font-20 {
+  font-size: 20px;
 }
 
 .text-assbt-shine {
