@@ -7,7 +7,6 @@ const accueils = ref([]);
 
 async function fetchAccueilsCarousel() {
   const apiUrl = import.meta.env.VITE_API_BASE_URL;
-  console.log(apiUrl);
 
   const listeAccueil = await axios.get<[]>(
     `${apiUrl}/accueils`
