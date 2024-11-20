@@ -7,6 +7,8 @@ import * as z from "zod";
 import UserDataService from '@/services/UserDataService';
 import type { UserLogin } from '@/types/User';
 import { useAuthStore } from '@/store/auth';
+import Toast from 'primevue/toast';
+import { useToast } from 'primevue/usetoast';
 
 const store = useAuthStore();
 const show_password = ref(false);
@@ -15,6 +17,7 @@ const form = ref({
   'email': '',
   'password': ''
 });
+const toast = useToast();
 
 const formSchema = z.object({
   email: z.string().email({ message: "Email invalide" }),
@@ -37,10 +40,12 @@ const onSubmit = () => {
 function connexion() {
   UserDataService.login(form.value as UserLogin)
     .then((response: any) => {
-      store.jwt = response.data.access_token;
+      store.setJwt(response.data.access_token);
     })
-    .catch((e: any) => {
-      console.log('ici', e.response.data.message);
+    .catch(error => {
+      // Handle login error
+      toast.add({ severity: 'warn', summary: 'Erreur de connexion', detail: error.response.data.message, life: 3000 });
+
     });
 }
 
@@ -49,11 +54,12 @@ function connexion() {
 
 <template>
   <Drawer class="assbt-connexion bg-assbt-dark opacity80" position="right" :showCloseIcon="false">
-    <Toast />
+
     <div class="center-logo-x2">
       <img src="@/assets/images/logo.png" alt="logo" class="logo-x2" />
     </div>
     <div class="bold-24 text-assbt-shine mt100">
+      <Toast />
       CONNEXION
     </div>
     <span v-if="store.jwt !== null">Connecté</span>
