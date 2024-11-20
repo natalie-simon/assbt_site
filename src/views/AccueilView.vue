@@ -6,10 +6,12 @@ import { ref, onMounted } from 'vue';
 const accueils = ref([]);
 
 async function fetchAccueilsCarousel() {
-  const test = await axios.get<[]>(
-    'http://127.0.0.1:3000/accueils'
+  const apiUrl = import.meta.env.VITE_API_BASE_URL;
+
+  const listeAccueil = await axios.get<[]>(
+    `${apiUrl}/accueils`
   );
-  accueils.value = test.data;
+  accueils.value = listeAccueil.data;
 }
 
 onMounted(async () => {
@@ -26,7 +28,7 @@ onMounted(async () => {
     </div>
     <Carousel :value="accueils" :numVisible="1" :numScroll="1" circular autoplay :autoplayInterval="10000">
       <template #item="slotProps">
-        <div class="col-12 bg-assbt-primary opacity80" style="width: 100%; min-height=75vh;">
+        <div class="col-12 bg-assbt-primary opacity80" style="width: 100%; min-height:75vh;">
           <div class="row">
             <div class="d-none d-sm-block col-5">
               <img class="col-12 m-1 p-4 opacity100" :src="slotProps.data.image" alt="accueil">

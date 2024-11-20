@@ -1,0 +1,117 @@
+<script setup lang="ts">
+import Drawer from 'primevue/drawer';
+import InputText from 'primevue/inputtext';
+import IconField from 'primevue/iconfield';
+import { ref } from "vue";
+import * as z from "zod";
+import UserDataService from '@/services/UserDataService';
+import type { UserLogin } from '@/types/User';
+import { useAuthStore } from '@/store/auth';
+
+const store = useAuthStore();
+const show_password = ref(false);
+
+const form = ref({
+  'email': '',
+  'password': ''
+});
+
+const formSchema = z.object({
+  email: z.string().email({ message: "Email invalide" }),
+  password: z.string().min(6, { message: "Le mot de passe doit contenir au moins 6 caractères" }),
+});
+
+type formSchemaType = z.infer<typeof formSchema>
+const errors = ref<z.ZodFormattedError<formSchemaType> | null>(null);
+
+const onSubmit = () => {
+  const validSchema = formSchema.safeParse(form.value);
+  if (!validSchema.success) {
+    errors.value = validSchema.error.format();
+  } else {
+    errors.value = null;
+    connexion();
+  }
+}
+
+function connexion() {
+  UserDataService.login(form.value as UserLogin)
+    .then((response: any) => {
+      store.jwt = response.data.access_token;
+    })
+    .catch((e: any) => {
+      console.log('ici', e.response.data.message);
+    });
+}
+
+
+</script>
+
+<template>
+  <Drawer class="assbt-connexion bg-assbt-dark opacity80" position="right" :showCloseIcon="false">
+    <Toast />
+    <div class="center-logo-x2">
+      <img src="@/assets/images/logo.png" alt="logo" class="logo-x2" />
+    </div>
+    <div class="bold-24 text-assbt-shine mt100">
+      CONNEXION
+    </div>
+    <span v-if="store.jwt !== null">Connecté</span>
+    <form v-else @submit.prevent="onSubmit">
+      <div class="mt-5">
+        <div>Email</div>
+        <InputText class="input-assbt-login" name="email" v-model="form.email" placeholder="Entrer votre email" />
+        <div v-if="errors?.email">
+          <Message severity="error" size="small" v-for="(error, index) in errors?.email?._errors" :key="index"> {{ error
+            }}</Message>
+        </div>
+      </div>
+      <div class="mt-5">
+        <div>Mot de passe</div>
+        <IconField>
+          <InputText class="input-assbt-login" name="password" v-model="form.password"
+            :type="show_password ? 'text' : 'password'" placeholder="Entrer votre mot de passe" />
+          <InputIcon>
+            <span :class="!show_password ? 'pi pi-eye' : 'pi pi-eye-slash'"
+              @click="show_password = !show_password"></span>
+          </InputIcon>
+        </IconField>
+        <div v-if="errors?.password">
+          <Message severity="error" size="small" v-for="(error, index) in errors?.password?._errors" :key="index"> {{
+            error
+          }}</Message>
+        </div>
+      </div>
+      <div class="mt-4 text-center">
+        <button class="btn bg-assbt-primary rounded-pill col-10 text-white">Connexion</button>
+      </div>
+    </form>
+    <template #footer>
+      <div class="text-center mb-5">Créer son compte</div>
+    </template>
+  </Drawer>
+</template>
+
+<style scoped>
+.logo-x2 {
+  width: 200px;
+  height: 128px;
+}
+
+.center-logo-x2 {
+  display: flex;
+  justify-content: center;
+  margin-top: 15px;
+}
+
+.input-assbt-login {
+  background-color: inherit;
+  border-color: white;
+  border-bottom-style: solid;
+  border-top-style: none;
+  border-left-style: none;
+  border-right-style: none;
+  border-radius: inherit;
+  width: 90%;
+}
+</style>
