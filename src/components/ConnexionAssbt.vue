@@ -6,10 +6,10 @@ import { ref } from "vue";
 import * as z from "zod";
 import UserDataService from '@/services/UserDataService';
 import type { UserLogin } from '@/types/User';
+import { useAuthStore } from '@/store/auth';
 
-//const visible = ref(false);
+const store = useAuthStore();
 const show_password = ref(false);
-
 
 const form = ref({
   'email': '',
@@ -37,12 +37,11 @@ const onSubmit = () => {
 function connexion() {
   UserDataService.login(form.value as UserLogin)
     .then((response: any) => {
-      if (response.status === 200) {
-        console.log('la : ', response.status);
-      } else {
-        console.log('ici : ', response.status);
-      }
+      store.jwt = response.data.access_token;
     })
+    .catch((e: any) => {
+      console.log('ici', e.response.data.message);
+    });
 }
 
 
@@ -57,7 +56,8 @@ function connexion() {
     <div class="bold-24 text-assbt-shine mt100">
       CONNEXION
     </div>
-    <form @submit.prevent="onSubmit">
+    <span v-if="store.jwt !== null">Connecté</span>
+    <form v-else @submit.prevent="onSubmit">
       <div class="mt-5">
         <div>Email</div>
         <InputText class="input-assbt-login" name="email" v-model="form.email" placeholder="Entrer votre email" />
