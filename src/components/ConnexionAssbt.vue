@@ -9,6 +9,10 @@ import type { UserLogin } from '@/types/User';
 import { useAuthStore } from '@/store/auth';
 import Toast from 'primevue/toast';
 import { useToast } from 'primevue/usetoast';
+import { useDialog } from 'primevue/usedialog';
+import testAssbt from './modals/CreationCompteAssbt.vue';
+
+const dialog = useDialog();
 
 const store = useAuthStore();
 const show_password = ref(false);
@@ -24,6 +28,20 @@ const formSchema = z.object({
   email: z.string().email({ message: "Email invalide" }),
   mot_de_passe: z.string().min(6, { message: "Le mot de passe doit contenir au moins 6 caractères" }),
 });
+
+const afficheInscription = () => {
+  dialog.open(testAssbt, {
+    props: {
+      modal: true,
+      dismissableMask: true, // Ferme la modale en cliquant en dehors
+      style: { width: '50vw' },
+      contentClass: 'bg-assbt-dark',
+      showHeader: false,
+
+
+    }
+  });
+}
 
 type formSchemaType = z.infer<typeof formSchema>
 const errors = ref<z.ZodFormattedError<formSchemaType> | null>(null);
@@ -61,7 +79,6 @@ function deconnexion() {
 
 <template>
   <Drawer class="assbt-connexion bg-assbt-dark opacity80" position="right" :showCloseIcon="false">
-
     <div class="center-logo-x2">
       <img src="@/assets/images/logo.png" alt="logo" class="logo-x2" />
     </div>
@@ -101,7 +118,7 @@ function deconnexion() {
       </div>
     </form>
     <template #footer>
-      <div v-if="store.jwt === null" class="text-center mb-5">Créer son compte</div>
+      <div v-if="store.jwt === null" class="text-center mb-5" @click="afficheInscription">Créer son compte</div>
       <div v-else>
         <button class="btn bg-assbt-primary rounded-pill col-10 text-white" @click="deconnexion">Déconnexion</button>
       </div>
