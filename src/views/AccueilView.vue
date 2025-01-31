@@ -3,15 +3,15 @@ import Carousel from 'primevue/carousel';
 import axios from 'axios';
 import { ref, onMounted } from 'vue';
 
-const accueils = ref([]);
+const articles = ref([]);
 
 async function fetchAccueilsCarousel() {
   const apiUrl = import.meta.env.VITE_API_BASE_URL;
 
-  const listeAccueil = await axios.get<[]>(
-    `${apiUrl}/accueils`
+  const listeArticles = await axios.get<[]>(
+    `${apiUrl}/articles/categorie/1`
   );
-  accueils.value = listeAccueil.data;
+  articles.value = listeArticles.data;
 }
 
 onMounted(async () => {
@@ -26,7 +26,7 @@ onMounted(async () => {
       <div class="bold-20 text-assbt-light">Association sportive de plongée sous-marine affiliée à la FFESSM</div>
       <div class="bold-20 text-assbt-light mt-4 mb-4">N°F.F.E.S.S.M. 3383.0422 - SIREN 829 412 733</div>
     </div>
-    <Carousel :value="accueils" :numVisible="1" :numScroll="1" circular autoplay :autoplayInterval="10000">
+    <Carousel :value="articles" :numVisible="1" :numScroll="1" circular autoplay :autoplayInterval="10000">
       <template #item="slotProps">
         <div class="col-12 bg-assbt-primary opacity80" style="width: 100%; min-height:75vh;">
           <div class="row">
@@ -37,8 +37,8 @@ onMounted(async () => {
               <div class="col-12 pt-1">
                 <span class="bold-20">{{ slotProps.data.titre }}</span>
               </div>
-              <div class="col-12 font-20 pt-4 text-justify">
-                <span v-html="slotProps.data.description"></span>
+              <div class="col-12 font-20 pt-4 text-justify" >
+                <span v-html="slotProps.data.contenu"></span>
               </div>
             </div>
           </div>

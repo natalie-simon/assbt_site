@@ -12,16 +12,17 @@ import { useToast } from 'primevue/usetoast';
 
 const store = useAuthStore();
 const show_password = ref(false);
+const emit = defineEmits(["close-drawer"]);
 
 const form = ref({
   'email': '',
-  'password': ''
-});
+  'mot_de_passe': ''
+} as UserLogin);
 const toast = useToast();
 
 const formSchema = z.object({
   email: z.string().email({ message: "Email invalide" }),
-  password: z.string().min(6, { message: "Le mot de passe doit contenir au moins 6 caractères" }),
+  mot_de_passe: z.string().min(6, { message: "Le mot de passe doit contenir au moins 6 caractères" }),
 });
 
 type formSchemaType = z.infer<typeof formSchema>
@@ -34,13 +35,14 @@ const onSubmit = () => {
   } else {
     errors.value = null;
     connexion();
+    emit("close-drawer");
   }
 }
 
 function connexion() {
   UserDataService.login(form.value as UserLogin)
     .then((response: any) => {
-      store.setJwt(response.data.access_token);
+      store.setJwt(response.data.accessToken);
     })
     .catch(error => {
       // Handle login error
@@ -75,17 +77,18 @@ function connexion() {
       <div class="mt-5">
         <div>Mot de passe</div>
         <IconField>
-          <InputText class="input-assbt-login" name="password" v-model="form.password"
+          <InputText class="input-assbt-login" name="mot_de_passe" v-model="form.mot_de_passe"
             :type="show_password ? 'text' : 'password'" placeholder="Entrer votre mot de passe" />
           <InputIcon>
             <span :class="!show_password ? 'pi pi-eye' : 'pi pi-eye-slash'"
               @click="show_password = !show_password"></span>
           </InputIcon>
         </IconField>
-        <div v-if="errors?.password">
-          <Message severity="error" size="small" v-for="(error, index) in errors?.password?._errors" :key="index"> {{
-            error
-          }}</Message>
+        <div v-if="errors?.mot_de_passe">
+          <Message severity="error" size="small" v-for="(error, index) in errors?.mot_de_passe?._errors" :key="index">
+            {{
+              error
+            }}</Message>
         </div>
       </div>
       <div class="mt-4 text-center">
@@ -93,7 +96,10 @@ function connexion() {
       </div>
     </form>
     <template #footer>
-      <div class="text-center mb-5">Créer son compte</div>
+      <div v-if="store.jwt === null" class="text-center mb-5">Créer son compte</div>
+      <div v-else>
+        <button class="btn bg-assbt-primary rounded-pill col-10 text-white">Déconnexion</button>
+      </div>
     </template>
   </Drawer>
 </template>
