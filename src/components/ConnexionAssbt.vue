@@ -51,6 +51,11 @@ function connexion() {
     });
 }
 
+function deconnexion() {
+  store.removeJwt();
+  emit("close-drawer");
+}
+
 
 </script>
 
@@ -98,7 +103,7 @@ function connexion() {
     <template #footer>
       <div v-if="store.jwt === null" class="text-center mb-5">Créer son compte</div>
       <div v-else>
-        <button class="btn bg-assbt-primary rounded-pill col-10 text-white">Déconnexion</button>
+        <button class="btn bg-assbt-primary rounded-pill col-10 text-white" @click="deconnexion">Déconnexion</button>
       </div>
     </template>
   </Drawer>
