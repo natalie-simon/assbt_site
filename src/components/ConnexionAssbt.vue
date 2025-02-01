@@ -10,42 +10,36 @@ import { useAuthStore } from '@/store/auth';
 import Toast from 'primevue/toast';
 import { useToast } from 'primevue/usetoast';
 import { useDialog } from 'primevue/usedialog';
-import testAssbt from './modals/CreationCompteAssbt.vue';
+import modalCreationCompte from './modals/CreationCompteAssbt.vue';
 
 const dialog = useDialog();
-
 const store = useAuthStore();
 const show_password = ref(false);
 const emit = defineEmits(["close-drawer"]);
 
+/**
+ * @description Formulaire de connexion
+ */
 const form = ref({
   'email': '',
   'mot_de_passe': ''
 } as UserLogin);
 const toast = useToast();
 
+/**
+ * @description Schéma de validation du formulaire
+ */
 const formSchema = z.object({
   email: z.string().email({ message: "Email invalide" }),
   mot_de_passe: z.string().min(6, { message: "Le mot de passe doit contenir au moins 6 caractères" }),
 });
 
-const afficheInscription = () => {
-  dialog.open(testAssbt, {
-    props: {
-      modal: true,
-      dismissableMask: true, // Ferme la modale en cliquant en dehors
-      style: { width: '50vw' },
-      contentClass: 'bg-assbt-dark',
-      showHeader: false,
-
-
-    }
-  });
-}
-
 type formSchemaType = z.infer<typeof formSchema>
 const errors = ref<z.ZodFormattedError<formSchemaType> | null>(null);
 
+/**
+ * @description Fonction appelée lors de la soumission du formulaire
+ */
 const onSubmit = () => {
   const validSchema = formSchema.safeParse(form.value);
   if (!validSchema.success) {
@@ -57,6 +51,9 @@ const onSubmit = () => {
   }
 }
 
+/**
+ * @description Fonction de connexion
+ */
 function connexion() {
   UserDataService.login(form.value as UserLogin)
     .then((response: any) => {
@@ -69,9 +66,27 @@ function connexion() {
     });
 }
 
+/**
+ * @description Fonction de déconnexion
+ */
 function deconnexion() {
   store.removeJwt();
   emit("close-drawer");
+}
+
+/**
+ * @description Fonction d'affichage de la modale de création de compte
+ */
+const afficheInscription = () => {
+  dialog.open(modalCreationCompte, {
+    props: {
+      modal: true,
+      dismissableMask: true, // Ferme la modale en cliquant en dehors
+      style: { width: '50vw' },
+      contentClass: 'bg-assbt-dark',
+      showHeader: false,
+    }
+  });
 }
 
 

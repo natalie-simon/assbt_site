@@ -1,4 +1,4 @@
-import type { UserLogin } from '@/types/User'
+import type { UserCreation, UserLogin } from '@/types/User'
 import http from '@/http-common'
 
 /**
@@ -12,6 +12,15 @@ class UserDataService {
    */
   login(data: UserLogin): Promise<any> {
     return http.post('/auth/sign-in', data)
+  }
+
+  /**
+   * Gestion de la création d'un compte utlisateur
+   * @param data
+   * @returns
+   */
+  create(data: UserCreation): Promise<any> {
+    return http.post('/membres/register', data)
   }
 }
 
