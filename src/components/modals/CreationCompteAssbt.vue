@@ -1,37 +1,38 @@
 <script setup lang="ts">
-import Drawer from 'primevue/drawer';
 import InputText from 'primevue/inputtext';
 import IconField from 'primevue/iconfield';
 import { ref } from "vue";
 import * as z from "zod";
-import UserDataService from '@/services/UserDataService';
-import type { UserLogin } from '@/types/User';
-import { useAuthStore } from '@/store/auth';
 import Toast from 'primevue/toast';
 import { useToast } from 'primevue/usetoast';
-import { useDialog } from 'primevue/usedialog';
-import modalCreationCompte from './modals/CreationCompteAssbt.vue';
+import type { UserCreation } from '@/types/User';
+import UserDataService from '@/services/UserDataService';
+import { useAuthStore } from '@/store/auth';
 
-const dialog = useDialog();
+
+const toast = useToast();
 const store = useAuthStore();
 const show_password = ref(false);
-const emit = defineEmits(["close-drawer"]);
 
 /**
- * @description Formulaire de connexion
+ * @description Formulaire de création de compte
  */
 const form = ref({
   'email': '',
-  'mot_de_passe': ''
-} as UserLogin);
-const toast = useToast();
+  'mot_de_passe': '',
+  'confirmation': '',
+  'clef': ''
+} as UserCreation);
 
 /**
  * @description Schéma de validation du formulaire
  */
 const formSchema = z.object({
   email: z.string().email({ message: "Email invalide" }),
-  mot_de_passe: z.string().min(6, { message: "Le mot de passe doit contenir au moins 6 caractères" }),
+  mot_de_passe: z.string().min(10, { message: "Le mot de passe doit contenir au moins 10 caractères" }),
+  confirmation: z.string().min(10, { message: "Le mot de passe doit contenir au moins 10 caractères" }).trim()
+    .refine((value) => value === form.value.mot_de_passe, { message: "Les mots de passe ne correspondent pas" }),
+  clef: z.string().min(6, { message: "La clef doit contenir au moins 6 caractères" }).trim(),
 });
 
 type formSchemaType = z.infer<typeof formSchema>
@@ -46,63 +47,33 @@ const onSubmit = () => {
     errors.value = validSchema.error.format();
   } else {
     errors.value = null;
-    connexion();
-    emit("close-drawer");
+    creationCompte();
   }
 }
 
 /**
- * @description Fonction de connexion
+ * @description Fonction de création de compte
  */
-function connexion() {
-  UserDataService.login(form.value as UserLogin)
+function creationCompte() {
+  UserDataService.create(form.value as UserCreation)
     .then((response: any) => {
+      toast.add({ severity: 'success', summary: 'Compte créé', detail: 'Votre compte a été créé avec succès', life: 3000 });
       store.setJwt(response.data.accessToken);
     })
     .catch(error => {
-      // Handle login error
-      toast.add({ severity: 'warn', summary: 'Erreur de connexion', detail: error.response.data.message, life: 3000 });
-
+      toast.add({ severity: 'warn', summary: 'Erreur lors de la création de votre compte', detail: error?.response.data.message, life: 3000 });
     });
 }
-
-/**
- * @description Fonction de déconnexion
- */
-function deconnexion() {
-  store.removeJwt();
-  emit("close-drawer");
-}
-
-/**
- * @description Fonction d'affichage de la modale de création de compte
- */
-const afficheInscription = () => {
-  dialog.open(modalCreationCompte, {
-    props: {
-      modal: true,
-      dismissableMask: true, // Ferme la modale en cliquant en dehors
-      style: { width: '50vw' },
-      contentClass: 'bg-assbt-dark',
-      showHeader: false,
-    }
-  });
-}
-
 
 </script>
 
 <template>
-  <Drawer class="assbt-connexion bg-assbt-dark opacity80" position="right" :showCloseIcon="false">
-    <div class="center-logo-x2">
-      <img src="@/assets/images/logo.png" alt="logo" class="logo-x2" />
-    </div>
-    <div class="bold-24 text-assbt-shine mt100">
-      <Toast />
-      CONNEXION
-    </div>
-    <span v-if="store.jwt !== null">Connecté</span>
-    <form v-else @submit.prevent="onSubmit">
+  <div>
+    <Toast />
+    <form @submit.prevent="onSubmit">
+      <div class="text-center">
+        <h2>Inscription</h2>
+      </div>
       <div class="mt-5">
         <div>Email</div>
         <InputText class="input-assbt-login" name="email" v-model="form.email" placeholder="Entrer votre email" />
@@ -128,29 +99,36 @@ const afficheInscription = () => {
             }}</Message>
         </div>
       </div>
+      <div class="mt-5">
+        <div>Confirmation du mot de passe</div>
+        <InputText class="input-assbt-login" name="mot_de_passe" v-model="form.confirmation"
+          :type="show_password ? 'text' : 'password'" placeholder="Entrer votre mot de passe" />
+        <div v-if="errors?.confirmation">
+          <Message severity="error" size="small" v-for="(error, index) in errors?.confirmation?._errors" :key="index">
+            {{ error
+            }}</Message>
+        </div>
+      </div>
+      <div class="mt-5">
+        <div>Clef</div>
+        <InputText class="input-assbt-login" name="clef" v-model="form.clef"
+          placeholder="Clef d'inscription fournie par le club" />
+        <div v-if="errors?.clef">
+          <Message severity="error" size="small" v-for="(error, index) in errors?.clef?._errors" :key="index"> {{ error
+            }}</Message>
+        </div>
+      </div>
       <div class="mt-4 text-center">
-        <button class="btn bg-assbt-primary rounded-pill col-10 text-white">Connexion</button>
+        <button class="btn bg-assbt-primary rounded-pill col-10 text-white">Création</button>
       </div>
     </form>
-    <template #footer>
-      <div v-if="store.jwt === null" class="text-center mb-5" @click="afficheInscription">Créer son compte</div>
-      <div v-else>
-        <button class="btn bg-assbt-primary rounded-pill col-10 text-white" @click="deconnexion">Déconnexion</button>
-      </div>
-    </template>
-  </Drawer>
+  </div>
 </template>
 
 <style scoped>
-.logo-x2 {
-  width: 200px;
-  height: 128px;
-}
-
-.center-logo-x2 {
-  display: flex;
-  justify-content: center;
-  margin-top: 15px;
+.logo {
+  width: 100px;
+  height: 64px;
 }
 
 .input-assbt-login {

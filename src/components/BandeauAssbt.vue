@@ -16,6 +16,12 @@ const items = ref([
   }
 ]);
 
+const closeDrawer = () => {
+  visible.value = false;
+};
+
+
+
 const toggle = (event: any) => {
   menu.value.toggle(event);
 };
@@ -49,7 +55,7 @@ const toggle = (event: any) => {
           <span class="pi pi-user text-assbt-shine" style="font-size: 2.5rem" @click="visible = true"></span>
         </template>
       </Toolbar>
-      <ConnexionAssbt v-model:visible="visible" />
+      <ConnexionAssbt v-model:visible="visible" @close-drawer="closeDrawer" />
     </div>
   </div>
 </template>

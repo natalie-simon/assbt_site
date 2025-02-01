@@ -6,6 +6,7 @@ import BandeauAssbt from './components/BandeauAssbt.vue'
 <template>
   <header>
     <div class="wrapper">
+      <DynamicDialog />
       <BandeauAssbt />
     </div>
   </header>
