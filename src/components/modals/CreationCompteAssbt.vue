@@ -35,7 +35,7 @@ const formSchema = z.object({
   mot_de_passe: z.string().min(10, { message: "Le mot de passe doit contenir au moins 10 caractères" }),
   confirmation: z.string().min(10, { message: "Le mot de passe doit contenir au moins 10 caractères" }).trim()
     .refine((value) => value === form.value.mot_de_passe, { message: "Les mots de passe ne correspondent pas" }),
-  clef: z.string().min(6, { message: "La clef doit contenir au moins 6 caractères" }).trim(),
+  clef: z.string().min(1, { message: "La clef doit contenir au moins 1 caractère" }).trim(),
 });
 
 type formSchemaType = z.infer<typeof formSchema>
