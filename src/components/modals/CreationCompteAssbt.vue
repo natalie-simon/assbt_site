@@ -8,6 +8,9 @@ import { useToast } from 'primevue/usetoast';
 import type { UserCreation } from '@/types/User';
 import UserDataService from '@/services/UserDataService';
 import { useAuthStore } from '@/store/auth';
+import { inject } from "vue";
+
+const dialogRef = inject('dialogRef') as any;
 
 
 const toast = useToast();
@@ -37,6 +40,7 @@ const formSchema = z.object({
 
 type formSchemaType = z.infer<typeof formSchema>
 const errors = ref<z.ZodFormattedError<formSchemaType> | null>(null);
+const emit = defineEmits(["close-drawer"]);
 
 /**
  * @description Fonction appelée lors de la soumission du formulaire
@@ -48,8 +52,10 @@ const onSubmit = () => {
   } else {
     errors.value = null;
     creationCompte();
+    dialogRef.value.close();
   }
 }
+
 
 /**
  * @description Fonction de création de compte
