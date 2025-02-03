@@ -25,7 +25,7 @@ jobs:
         run: npm run build
 
       - name: Deployer O2switch
-        uses: SamKirkland/FTP-Deploy-Action@v4
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.4
         with:
           server: ftp.kifi2105.odns.fr
           username: cicd_natalie@kifi2105.odns.fr
