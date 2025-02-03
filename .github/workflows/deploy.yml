@@ -31,4 +31,4 @@ jobs:
           username: cicd_natalie@kifi2105.odns.fr
           password: Elmedo@951!
           local-dir: './dist/' # Dossier généré après build
-          server-dir: './dist/'
+          server-dir: './'
