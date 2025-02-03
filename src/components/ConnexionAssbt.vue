@@ -60,8 +60,9 @@ function connexion() {
       store.setJwt(response.data.accessToken);
     })
     .catch(error => {
+      console.log(error);
       // Handle login error
-      toast.add({ severity: 'warn', summary: 'Erreur de connexion', detail: error.response.data.message, life: 3000 });
+      toast.add({ severity: 'warn', summary: 'Erreur de connexion', detail: 'Données de connexion non valide', life: 3000 });
 
     });
 }
