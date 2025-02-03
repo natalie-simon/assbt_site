@@ -27,8 +27,8 @@ jobs:
       - name: Deployer O2switch
         uses: SamKirkland/FTP-Deploy-Action@v4.3.4
         with:
-          server: ftp.kifi2105.odns.fr
-          username: cicd_natalie@kifi2105.odns.fr
-          password: Elmedo@951!
+          server: ${{ secrets.FTP_HOST }}
+          username: ${{ secrets.FTP_USERNAME }}
+          password: ${{ secrets.FTP_USERNAME }}
           local-dir: './dist/' # Dossier généré après build
           server-dir: './'
