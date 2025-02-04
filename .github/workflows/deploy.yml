@@ -32,3 +32,26 @@ jobs:
           password: Elmedo@951!
           local-dir: './dist/' # Dossier généré après build
           server-dir: './'
+      - name: Send success email
+        uses: dawidd6/action-send-mail@v2
+        with:
+          server_address: smtp.gmail.com
+          server_port: 587
+          username: ybah2201@gmail.com
+          password: 'gvee arok itvs awuw'
+          subject: "Déploiement réussi pour l'application Vue 3"
+          body: "Le déploiement sur l'environnement test a réussi. Vous pouvez consulter l'application à l'adresse suivante: https://testassbtweb.nataliesimon.fr"
+          to: ybah2201@gmail.com
+          from: ybah2201@gmail.com
+      - name: Send failure email
+        if: failure()
+        uses: dawidd6/action-send-mail@v3
+        with:
+          server_address: smtp.gmail.com
+          server_port: 587
+          username: ybah2201@gmail.com
+          password: 'gvee arok itvs awuw'
+          subject: "Échec du déploiement pour l'application Vue 3"
+          body: "Le déploiement sur l'environnement test a échoué. Veuillez vérifier les logs pour plus de détails."
+           to: ybah2201@gmail.com
+          from: ybah2201@gmail.com
