@@ -53,5 +53,5 @@ jobs:
           password: 'gvee arok itvs awuw'
           subject: "Échec du déploiement pour l'application Vue 3"
           body: "Le déploiement sur l'environnement test a échoué. Veuillez vérifier les logs pour plus de détails."
-           to: ybah2201@gmail.com
+          to: ybah2201@gmail.com
           from: ybah2201@gmail.com
