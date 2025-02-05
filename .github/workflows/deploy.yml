@@ -39,7 +39,7 @@ jobs:
           server_port: ${{secrets.SMTP_PORT}}
           username: ${{ secrets.SMTP_USERNAME }}
           password: ${{ secrets.SMTP_PASSWORD }}
-          subject: "Déploiement réussi pour l'application Vue 3 username ${{ secrets.FTP_PASSWORD }}"
+          subject: "Déploiement réussi pour l'application ASSBT Front"
           body: "Le déploiement sur l'environnement test a réussi. Vous pouvez consulter l'application à l'adresse suivante: https://testassbtweb.nataliesimon.fr"
           to: ybah2201@gmail.com
           from: ybah2201@gmail.com
@@ -51,7 +51,7 @@ jobs:
           server_port: ${{secrets.SMTP_PORT}}
           username: ${{ secrets.SMTP_USERNAME }}
           password: ${{ secrets.SMTP_PASSWORD }}
-          subject: "Échec du déploiement pour l'application Vue 3"
+          subject: "Échec du déploiement pour l'application ASSBT Front"
           body: "Le déploiement sur l'environnement test a échoué. Veuillez vérifier les logs pour plus de détails."
           to: ybah2201@gmail.com
           from: ybah2201@gmail.com
