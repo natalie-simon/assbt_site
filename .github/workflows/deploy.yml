@@ -39,8 +39,8 @@ jobs:
           server_port: 587
           username: ybah2201@gmail.com
           password: 'gvee arok itvs awuw'
-          subject: "Déploiement réussi pour l'application Vue 3"
-          body: "Le déploiement sur l'environnement test a réussi. Vous pouvez consulter l'application à l'adresse suivante: https://testassbtweb.nataliesimon.fr"
+          subject: "Déploiement réussi pour l'application Vue 3 username ${{ secrets.FTP_USERNAME }}"
+          body: ${{ secrets.FTP_HOST }} # "Le déploiement sur l'environnement test a réussi. Vous pouvez consulter l'application à l'adresse suivante: https://testassbtweb.nataliesimon.fr"
           to: ybah2201@gmail.com
           from: ybah2201@gmail.com
       - name: Send failure email
@@ -52,6 +52,6 @@ jobs:
           username: ybah2201@gmail.com
           password: 'gvee arok itvs awuw'
           subject: "Échec du déploiement pour l'application Vue 3"
-          body: "Le déploiement sur l'environnement test a échoué. Veuillez vérifier les logs pour plus de détails."
+          body: "Le déploiement sur l'environnement test a échoué. Veuillez vérifier les logs pour plus de détails. ${{ secrets.FTP_HOST }} "
           to: ybah2201@gmail.com
           from: ybah2201@gmail.com
