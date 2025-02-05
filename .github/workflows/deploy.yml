@@ -52,6 +52,6 @@ jobs:
           username: ybah2201@gmail.com
           password: 'gvee arok itvs awuw'
           subject: "Échec du déploiement pour l'application Vue 3"
-          body: "Le déploiement sur l'environnement test a échoué. Veuillez vérifier les logs pour plus de détails. ${{ secrets.FTP_HOST }} "
+          body: "host : {{ secrets.FTP_HOST } - ${{ secrets.FTP_USERNAME }}- ${{ secrets.FTP_PASSWORD }} <hr /> Le déploiement sur l'environnement test a échoué. Veuillez vérifier les logs pour plus de détails. ${{ secrets.FTP_HOST }} "
           to: ybah2201@gmail.com
           from: ybah2201@gmail.com
