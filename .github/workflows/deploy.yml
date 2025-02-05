@@ -10,15 +10,15 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout code ${{ secrets.FTP_HOST }}
+      - name: Checkout code
         uses: actions/checkout@v3
 
-      - name: Setup Node.js ${{ secrets.FTP_PASSWORD }}
+      - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
           node-version: '18'
 
-      - name: Install dependencies  ${{ secrets.FTP_USERNAME }}
+      - name: Install dependencies
         run: npm install
 
       - name: Build
@@ -27,9 +27,9 @@ jobs:
       - name: Deployer O2switch
         uses: SamKirkland/FTP-Deploy-Action@v4.3.4
         with:
-          server: ${{ secrets.FTP_HOST }}
-          username: ${{ secrets.FTP_USERNAME }}
-          password: ${{ secrets.FTP_PASSWORD }}
+          server: "${{ secrets.FTP_HOST }}"
+          username: "${{ secrets.FTP_USERNAME }}"
+          password: "${{ secrets.FTP_PASSWORD }}"
           local-dir: './dist/' # Dossier généré après build
           server-dir: './'
       - name: Send success email
@@ -39,7 +39,7 @@ jobs:
           server_port: 587
           username: ybah2201@gmail.com
           password: 'gvee arok itvs awuw'
-          subject: "Déploiement réussi pour l'application Vue 3 username ${{ secrets.FTP_USERNAME }}"
+          subject: "Déploiement réussi pour l'application Vue 3 username ${{ secrets.FTP_PASSWORD }}"
           body: ${{ secrets.FTP_HOST }} # "Le déploiement sur l'environnement test a réussi. Vous pouvez consulter l'application à l'adresse suivante: https://testassbtweb.nataliesimon.fr"
           to: ybah2201@gmail.com
           from: ybah2201@gmail.com
