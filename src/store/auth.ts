@@ -1,11 +1,22 @@
+import { jwtDecode } from 'jwt-decode'
 import { defineStore } from 'pinia'
-import { ref } from 'vue'
+import { ref, computed } from 'vue'
+
+interface JwtPayload {
+  sub: string
+  email: string
+  iat: number
+  exp: number
+}
 
 /**
  * Store pour la gestion de l'authentication
  */
 export const useAuthStore = defineStore('auth', () => {
-  const jwt = ref(localStorage.getItem('jwt') || null)
+  const jwt = ref<string | null>(null)
+  const JwtPayload = ref<JwtPayload | null>(jwt.value ? jwtDecode<JwtPayload>(jwt.value) : null)
+
+  const isAuth = computed(() => !!jwt.value)
 
   /**
    * Mets à jour le Jwt
@@ -13,7 +24,6 @@ export const useAuthStore = defineStore('auth', () => {
    */
   function setJwt(token: string) {
     jwt.value = token
-    localStorage.setItem('jwt', token)
   }
 
   /**
@@ -21,12 +31,13 @@ export const useAuthStore = defineStore('auth', () => {
    */
   function removeJwt() {
     jwt.value = null
-    localStorage.removeItem('jwt')
   }
 
   return {
     jwt,
     setJwt,
-    removeJwt
+    removeJwt,
+    isAuth,
+    JwtPayload
   }
 })

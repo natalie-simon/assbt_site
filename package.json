@@ -23,6 +23,7 @@
     "compodoc": "^0.0.41",
     "dotenv": "^16.4.5",
     "express": "^4.17.2",
+    "jwt-decode": "^4.0.0",
     "pinia": "^2.1.7",
     "primeicons": "^7.0.0",
     "primevue": "^4.1.0",

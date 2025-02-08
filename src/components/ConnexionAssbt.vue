@@ -75,6 +75,7 @@ function connexion() {
 function deconnexion() {
   store.removeJwt();
   emit("close-drawer");
+  router.push({ name: 'accueil_membres' });
 }
 
 /**

@@ -1,17 +1,19 @@
 <script setup lang="ts">
 import Toolbar from 'primevue/toolbar';
 import Menu from 'primevue/menu';
-import { ref } from "vue";
+import { computed, ref } from "vue";
 import ConnexionAssbt from './ConnexionAssbt.vue';
+import { useAuthStore } from '@/store/auth';
 
+const authStore = useAuthStore();
 const visible = ref(false);
 const menu = ref();
-const items = ref([
+const items = computed(() => [
   {
     items: [
-      { label: 'Accueil' },
-      { label: 'Inscription' },
-      { label: 'Contact' }
+      { label: authStore.isAuth ? 'Informations' : 'Accueil', to: authStore.isAuth ? '/accueil_membres' : '/' },
+      { label: 'Inscription', to: '/inscription' },
+      { label: 'Contact', to: '/contact' }
     ]
   }
 ]);
@@ -19,8 +21,6 @@ const items = ref([
 const closeDrawer = () => {
   visible.value = false;
 };
-
-
 
 const toggle = (event: any) => {
   menu.value.toggle(event);
@@ -37,7 +37,11 @@ const toggle = (event: any) => {
             <div class="text-left">
               <span @click="toggle" aria-haspopup="true" aria-controls="overlay_menu"><i
                   class="pi pi-bars text-assbt-shine" style="font-size: 1rem"></i></span>
-              <Menu class="bg-assbt-dark opacity80" ref="menu" id="overlay_menu" :model="items" :popup="true" />
+              <Menu class="bg-assbt-dark opacity80" ref="menu" id="overlay_menu" :model="items" :popup="true">
+                <template #item="{ item }">
+                  <router-link :to="item.to" class="bandeau-link text-white">{{ item.label }}</router-link>
+                </template>
+              </Menu>
             </div>
           </div>
           <div class="d-none d-sm-block">
@@ -46,7 +50,9 @@ const toggle = (event: any) => {
         </template>
         <template #center>
           <div class="d-none d-sm-block">
-            <router-link class="bandeau-link text-white bold-24" to="/">Accueil</router-link>
+            <router-link class="bandeau-link text-white bold-24" :to="authStore.isAuth ? '/accueil_membres' : '/'">
+              {{ authStore.isAuth ? 'Informations' : 'Accueil' }}
+            </router-link>
             <router-link class="bandeau-link text-white bold-24" to="/inscription">Inscription</router-link>
             <router-link class="bandeau-link text-white bold-24" to="/contact">Contact</router-link>
           </div>
