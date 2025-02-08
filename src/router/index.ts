@@ -11,6 +11,16 @@ const router = createRouter({
       path: '/',
       name: 'home',
       component: AccueilView
+    },
+    {
+      path: '/accueil_membres',
+      name: 'accueil_membres',
+      component: () => import('../views/AccueilMembreAssbt.vue')
+    },
+    {
+      path: '/contact',
+      name: 'contact',
+      component: () => import('../views/ContactAssbt.vue')
     }
   ]
 })

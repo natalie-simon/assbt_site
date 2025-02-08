@@ -9,7 +9,9 @@ import type { UserCreation } from '@/types/User';
 import UserDataService from '@/services/UserDataService';
 import { useAuthStore } from '@/store/auth';
 import { inject } from "vue";
+import { useRouter } from 'vue-router';
 
+const router = useRouter();
 const dialogRef = inject('dialogRef') as any;
 
 
@@ -65,6 +67,7 @@ function creationCompte() {
     .then((response: any) => {
       toast.add({ severity: 'success', summary: 'Compte créé', detail: 'Votre compte a été créé avec succès', life: 3000 });
       store.setJwt(response.data.accessToken);
+      router.push({ name: 'accueil_membres' });
     })
     .catch(error => {
       toast.add({ severity: 'warn', summary: 'Erreur lors de la création de votre compte', detail: error?.response.data.message, life: 3000 });

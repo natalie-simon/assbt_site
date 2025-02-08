@@ -11,9 +11,11 @@ import Toast from 'primevue/toast';
 import { useToast } from 'primevue/usetoast';
 import { useDialog } from 'primevue/usedialog';
 import modalCreationCompte from './modals/CreationCompteAssbt.vue';
+import { useRouter } from 'vue-router';
 
 const dialog = useDialog();
 const store = useAuthStore();
+const router = useRouter();
 const show_password = ref(false);
 const emit = defineEmits(["close-drawer"]);
 
@@ -58,12 +60,12 @@ function connexion() {
   UserDataService.login(form.value as UserLogin)
     .then((response: any) => {
       store.setJwt(response.data.accessToken);
+      router.push({ name: 'accueil_membres' });
     })
     .catch(error => {
       console.log(error);
       // Handle login error
       toast.add({ severity: 'warn', summary: 'Erreur de connexion', detail: 'Données de connexion non valide', life: 3000 });
-
     });
 }
 
