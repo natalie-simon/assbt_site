@@ -30,6 +30,11 @@ const router = createRouter({
       path: '/contact',
       name: 'contact',
       component: () => import('../views/ContactAssbt.vue')
+    },
+    {
+      path: '/reset_password',
+      name: 'reset_password',
+      component: () => import('../views/ResetPasswordAssbt.vue')
     }
   ]
 })

@@ -1,4 +1,4 @@
-import type { UserCreation, UserLogin } from '@/types/User'
+import type { UserCreation, UserLogin, UserResetPassword } from '@/types/User'
 import http from '@/http-common'
 
 /**
@@ -21,6 +21,16 @@ class UserDataService {
    */
   create(data: UserCreation): Promise<any> {
     return http.post('/membres/register', data)
+  }
+
+  resetPassword(data: UserResetPassword, token: string): Promise<any> {
+    const config = {
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    }
+
+    return http.post('/auth/change-password', data, config)
   }
 }
 

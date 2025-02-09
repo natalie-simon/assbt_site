@@ -145,26 +145,4 @@ const afficheInscription = () => {
   </Drawer>
 </template>
 
-<style scoped>
-.logo-x2 {
-  width: 200px;
-  height: 128px;
-}
-
-.center-logo-x2 {
-  display: flex;
-  justify-content: center;
-  margin-top: 15px;
-}
-
-.input-assbt-login {
-  background-color: inherit;
-  border-color: white;
-  border-bottom-style: solid;
-  border-top-style: none;
-  border-left-style: none;
-  border-right-style: none;
-  border-radius: inherit;
-  width: 90%;
-}
-</style>
+<style scoped></style>

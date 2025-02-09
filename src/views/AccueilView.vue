@@ -2,6 +2,19 @@
 import Carousel from 'primevue/carousel';
 import axios from 'axios';
 import { ref, onMounted } from 'vue';
+import { useRoute, useRouter } from 'vue-router';
+
+const route = useRoute();
+const router = useRouter();
+
+onMounted(() => {
+  const token = route.query.token;
+  console.log(token);
+
+  if (token) {
+    router.push({ name: 'reset_password', query: { token: encodeURIComponent(token) } });
+  }
+});
 
 const articles = ref([]);
 
@@ -37,7 +50,7 @@ onMounted(async () => {
               <div class="col-12 pt-1">
                 <span class="bold-20">{{ slotProps.data.titre }}</span>
               </div>
-              <div class="col-12 font-20 pt-4 text-justify" >
+              <div class="col-12 font-20 pt-4 text-justify">
                 <span v-html="slotProps.data.contenu"></span>
               </div>
             </div>

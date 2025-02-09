@@ -35,3 +35,18 @@ export interface UserCreation {
    */
   clef: string
 }
+
+/**
+ * User interface
+ * Type pour UserResetPassword
+ */
+export interface UserResetPassword {
+  /*
+   * Nouveau mot de passe
+   */
+  nouveaU_mdp: string
+  /*
+   * Confirmation du nouveau mot de passe
+   */
+  confirmation_mdp: string
+}
