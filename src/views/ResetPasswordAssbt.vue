@@ -4,27 +4,28 @@ import { useRoute } from 'vue-router'
 import InputText from 'primevue/inputtext';
 import IconField from 'primevue/iconfield';
 import Toast from 'primevue/toast';
+import { useRouter } from 'vue-router';
 import { useToast } from 'primevue/usetoast';
 import UserDataService from '@/services/UserDataService';
-
-import { UserResetPassword } from '@/types/User';
+import type { UserResetPassword } from '@/types/User';
 import * as z from "zod";
 
 
 const route = useRoute()
-const token = route.query.token;
+const token = route.query.token as string;
+const router = useRouter();
 
 const toast = useToast();
 const show_password = ref(true);
 
 const form = ref({
   'nouveau_mdp': '',
-  'confirmation': '',
+  'confirmation_mdp': '',
 } as UserResetPassword);
 
 const formSchema = z.object({
   nouveau_mdp: z.string().min(10, { message: "Le mot de passe doit contenir au moins 10 caractères" }),
-  confirmation: z.string().min(10, { message: "Le mot de passe doit contenir au moins 10 caractères" }).trim()
+  confirmation_mdp: z.string().min(10, { message: "Le mot de passe doit contenir au moins 10 caractères" }).trim()
     .refine((value) => value === form.value.nouveau_mdp, { message: "Les mots de passe ne correspondent pas" }),
 });
 
@@ -42,7 +43,7 @@ const onSubmit = () => {
 }
 
 function resetPassword() {
-  UserDataService.resetPassword(form.value as UserResetPasswordForm, token)
+  UserDataService.resetPassword(form.value as UserResetPassword, token)
     .then((response) => {
       toast.add({ severity: 'success', summary: 'Succès', detail: response.data.message });
       router.push({ name: 'home' });
@@ -84,10 +85,11 @@ function resetPassword() {
         </div>
         <div class="offset-3 col-6 mt-5">
           <div>Confirmation du mot de passe</div>
-          <InputText class="input-assbt-login" name="confirmation" v-model="form.confirmation"
+          <InputText class="input-assbt-login" name="confirmation_mdp" v-model="form.confirmation_mdp"
             :type="show_password ? 'text' : 'password'" placeholder="Confirmation" />
-          <div v-if="errors?.confirmation">
-            <Message severity="error" size="small" v-for="(error, index) in errors?.confirmation?._errors" :key="index">
+          <div v-if="errors?.confirmation_mdp">
+            <Message severity="error" size="small" v-for="(error, index) in errors?.confirmation_mdp?._errors"
+              :key="index">
               {{ error
               }}</Message>
           </div>

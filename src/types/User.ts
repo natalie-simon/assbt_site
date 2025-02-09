@@ -41,12 +41,7 @@ export interface UserCreation {
  * Type pour UserResetPassword
  */
 export interface UserResetPassword {
-  /*
-   * Nouveau mot de passe
-   */
-  nouveaU_mdp: string
-  /*
-   * Confirmation du nouveau mot de passe
-   */
+  nouveau_mdp: string
+
   confirmation_mdp: string
 }

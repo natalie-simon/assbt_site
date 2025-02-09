@@ -8,8 +8,7 @@ const route = useRoute();
 const router = useRouter();
 
 onMounted(() => {
-  const token = route.query.token;
-  console.log(token);
+  const token = route.query.token as string;
 
   if (token) {
     router.push({ name: 'reset_password', query: { token: encodeURIComponent(token) } });
