@@ -16,6 +16,11 @@
     "doc": "npx @compodoc/compodoc -p tsconfig.json -s --port 3001 --watch -d ./documentation"
   },
   "dependencies": {
+    "@fullcalendar/core": "^6.1.15",
+    "@fullcalendar/daygrid": "^6.1.15",
+    "@fullcalendar/interaction": "^6.1.15",
+    "@fullcalendar/timegrid": "^6.1.15",
+    "@fullcalendar/vue3": "^6.1.15",
     "@primevue/themes": "^4.1.0",
     "@vee-validate/zod": "^4.14.7",
     "axios": "^1.7.7",
@@ -25,8 +30,9 @@
     "express": "^4.17.2",
     "jwt-decode": "^4.0.0",
     "pinia": "^2.1.7",
+    "primeflex": "^3.3.1",
     "primeicons": "^7.0.0",
-    "primevue": "^4.1.0",
+    "primevue": "^4.2.5",
     "vue": "^3.4.29",
     "vue-router": "^4.3.3",
     "zod": "^3.23.8"
