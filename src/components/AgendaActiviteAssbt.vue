@@ -17,7 +17,7 @@ const calendarOptions = {
     { title: 'Aqua poney', date: '2025-02-18', color: '#FFFA00' },
     { title: 'AG', date: '2025-02-20', color: '#000000' }
   ],
-  eventClick: function (info) {
+  eventClick: function (info: any) {
     alert('Event: ' + info.event.title + ' Date: ' + info.event.color);
   },
 };
