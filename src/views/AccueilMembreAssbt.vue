@@ -33,7 +33,12 @@ onBeforeMount(() => {
 <template>
   <div class="container-fluid">
     <div class="row">
-      <div class="col-8">
+      <!-- Colonne pour AgendaActiviteAssbt -->
+      <div class="col-12 col-lg-4 order-lg-2">
+        <AgendaActiviteAssbt />
+      </div>
+      <!-- Colonne pour Tabs -->
+      <div class="col-12 col-lg-8 order-lg-1">
         <Tabs value="0" class="p-4 m-4">
           <TabList>
             <Tab value="0" class="bg-assbt-dark opacity80 text-assbt-light">Actualités</Tab>
@@ -48,21 +53,18 @@ onBeforeMount(() => {
                     <p class="m-0">
                       Nous avons le plaisir de vous inviter à l’Assemblée Générale<br />
                       L’ordre du jour sera le suivant :<br />
-                      <lu>
-                        <li>Présentation du bilan de l’année écoulée</li>
-                        <li>Rapport financier</li>
-                        <li>Projets et perspectives pour l’année à venir</li>
-                        <li>Élections / Renouvellement du bureau (si applicable)</li>
-                        <li>Questions diverses</li>
-                      </lu>
-
-                      Votre présence est importante pour la vie et l’avenir de [Nom de l'Association / de l'Entreprise].
-                      Si vous ne pouvez pas être présent(e), vous pouvez donner procuration à un autre membre.
-
-                      Merci de confirmer votre présence avant le [Date limite de confirmation] par retour d’e-mail à
-                      [Adresse e-mail] ou par téléphone au [Numéro de contact].
-
-                      Nous comptons sur vous et espérons vous voir nombreux !
+                    <ul>
+                      <li>Présentation du bilan de l’année écoulée</li>
+                      <li>Rapport financier</li>
+                      <li>Projets et perspectives pour l’année à venir</li>
+                      <li>Élections / Renouvellement du bureau (si applicable)</li>
+                      <li>Questions diverses</li>
+                    </ul>
+                    Votre présence est importante pour la vie et l’avenir de [Nom de l'Association / de l'Entreprise].
+                    Si vous ne pouvez pas être présent(e), vous pouvez donner procuration à un autre membre.
+                    Merci de confirmer votre présence avant le [Date limite de confirmation] par retour d’e-mail à
+                    [Adresse e-mail] ou par téléphone au [Numéro de contact].
+                    Nous comptons sur vous et espérons vous voir nombreux !
                     </p>
                   </AccordionContent>
                 </AccordionPanel>
@@ -71,16 +73,12 @@ onBeforeMount(() => {
                   <AccordionContent>
                     <p class="m-0">
                       Chers membres,<br />
-
                       La saison touche à sa fin, et quoi de mieux qu’un moment convivial pour la clôturer en beauté ?
                       Nous vous invitons à notre repas de fin de saison, qui aura lieu le 15/06/2025.
-
                       Ce sera l’occasion de partager un bon repas, d’échanger sur nos plongées de l’année et de préparer
                       les prochaines aventures sous-marines ! Merci de confirmer votre présence avant le
-                      01/06/205.<br />>
-
+                      01/06/2025.<br />
                       Nous comptons sur vous pour faire de cette soirée un moment inoubliable !<br />
-
                       À bientôt,
                     </p>
                   </AccordionContent>
@@ -88,8 +86,8 @@ onBeforeMount(() => {
               </Accordion>
             </TabPanel>
             <TabPanel value="1">
-              <div class="row">
-                <div class="col-6">
+              <div class="row p-1">
+                <div class="col-12 col-md-6 pb-1">
                   <Card class="col-12 p-1">
                     <template #title>Palmes carbonne</template>
                     <template #header>
@@ -103,8 +101,8 @@ onBeforeMount(() => {
                     </template>
                   </Card>
                 </div>
-                <div class="col-6">
-                  <Card class="col-12 p-1">
+                <div class="col-12 col-md-6 pb-1">
+                  <Card class=" col-12 p-1">
                     <template #title>Combinaison 5mm</template>
                     <template #header>
                       <img src="@/assets/images/logo.png" alt="logo" class="logo-x2" />
@@ -119,7 +117,7 @@ onBeforeMount(() => {
                 </div>
               </div>
               <div class="row p-1">
-                <div class="col-6">
+                <div class="col-12 col-md-6 pb-1">
                   <Card class="col-12 p-1">
                     <template #title>Palmes carbonne</template>
                     <template #header>
@@ -133,7 +131,7 @@ onBeforeMount(() => {
                     </template>
                   </Card>
                 </div>
-                <div class="col-6">
+                <div class="col-12 col-md-6 pb-1">
                   <Card class="col-12 p-1">
                     <template #title>Combinaison 5mm</template>
                     <template #header>
@@ -152,12 +150,9 @@ onBeforeMount(() => {
           </TabPanels>
         </Tabs>
       </div>
-      <div class="col-4">
-        <AgendaActiviteAssbt />
-      </div>
     </div>
-
   </div>
+
 </template>
 
 
